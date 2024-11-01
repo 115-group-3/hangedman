@@ -6,7 +6,7 @@ int main()
     printf("Welcome to Hangedman!\n");
 
     char guess;
-    int attemptsleft=6;
+    int attemptsleft=5;
     char word='a';
     while (attemptsleft > 0){
         printf("enter your guess: ");
