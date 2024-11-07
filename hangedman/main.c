@@ -4,7 +4,8 @@
 int main()
 {
     printf("Welcome to Hangedman!\n");
-
+    
+    char letters[26];
     char guess;
     int attemptsleft=5;
     char word='a';
