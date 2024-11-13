@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define MAX_WORD_LENGTH 20
+#define MAX_GUESSES 6
 
 int main()
 {
     printf("Welcome to Hangedman!\n");
-    
-    char letters[26];
-    char guess;
-    int attemptsleft=5;
-    char word='a';
+
+    char words[][MAX_WORD_LENGTH]; = {"apple","banana","computer","door","elephant","flame"}
+    int attemptsleft=6;
     while (attemptsleft > 0){
         printf("enter your guess: ");
         scanf(" %c",&guess);
