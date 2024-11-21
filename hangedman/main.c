@@ -75,34 +75,91 @@ void drawHangman(int attemptsleft) {
 
 int main()
 {
+    int i;
+    char words[][MAX_WORD_LENGTH] = {"apple","banana","computer","door","elephant","fire"};
+    int wordcount = sizeof(words) / sizeof(words[0]); //used to find the number of elements in the 'word' array
+    srand(time(NULL));
+    int wordindex = rand() % wordcount; //select a random index for the word
+    char selectedword[MAX_WORD_LENGTH];
+    strcpy(selectedword,words[wordindex]); //wordindex is an integer that represents a randomly selected index within this array
+    int wordlength = strlen(selectedword); //finds the length of the word
+    char guessedword[MAX_WORD_LENGTH];
+
     printf("Welcome to Hangedman!\n");
 
-    char words[][MAX_WORD_LENGTH] = {"apple","banana","computer","door","elephant","flame"};
-    int wordCount = sizeof(words) / sizeof(words[0]);
-    int attemptsleft=6;
-    char guess,word='a';
+    for(i=0;i<wordlength;i++)
+    {
+        guessedword[i] = '_'; //will display underscores for the letters to be guessed
+    }
+
+    guessedword[wordlength] = '\0';
+
+    int attemptsleft = MAX_GUESSES;
+    char guess;
+    int correctguess;
+    int fullyguessed;
+
+    system("cls");
+
+    printf("=====================================\n");
+    printf("          Welcome to Hangman!       \n");
+    printf("=====================================\n");
+    printf("Guess the word by suggesting letters.\n");
+    printf("You have %d chances to get it right.\n", MAX_GUESSES);
+    printf("Good luck!\n");
+    printf("Press any key to start...\n");
+    getchar();
+
     while (attemptsleft > 0){
         system("cls");
         drawHangman(attemptsleft);
 
-
-        printf("attempts remaining: %d\n", attemptsleft);
-        printf("enter your guess: ");
+        printf("\nWord: %s\n",guessedword); //shows the state of the guessed word
+        printf("Guess a letter: ",&guess);
         scanf(" %c",&guess);
 
-        if (guess == word) {
-            printf("correct\n");
+        correctguess=0;
+        for (int i=0;i<wordlength;i++)
+        {
+            if(selectedword[i]==guess){
+                guessedword[i]=guess;
+                correctguess=1;
+            }
+        }
+
+        if(correctguess==0){
+            attemptsleft--;
+            printf("Incorrect guess.\nRemaining attempts: %d\n",attemptsleft);
+            printf("Press any key to continue");
+            getchar();
+            getchar();
+            }
+
+        fullyguessed=1;               // initially assume the word is fully guessed
+        for (int i=0;i<wordlength;i++)
+        {
+            if(guessedword[i]=='_') //to check if there are any unguessed letters
+            {
+                fullyguessed = 0;
+                break;
+            }
+        }
+
+        if(fullyguessed==1)
+        {
+            system("cls");
+            drawHangman(attemptsleft);
+            printf("\nWord: %s\n",guessedword);
+            printf("Congratulations! You guessed the word.\n");
             return 0;
         }
-         else{
-            printf("incorrect guess\npress any key to continue");
-        }
-        getchar();
-        getchar();
 
-        attemptsleft--;
     }
 
+    system("cls");
+    drawHangman(attemptsleft);
+    printf("\nWord: %s\n",selectedword);
+    printf("Game over. The word was '%s'.",selectedword);
 
 
     return 0;
