@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#define MAX_WORD_LENGTH 20
+#define MAX_WORD_LENGTH 100
 #define MAX_GUESSES 6
 
 void drawHangman(int attemptsleft) {
@@ -77,11 +77,20 @@ int main()
 {
     int i;
     char words[][MAX_WORD_LENGTH] = {"apple","banana","computer","door","elephant","fire"};
+    char hints[][MAX_WORD_LENGTH]={
+    "A fruit that keeps doctors away",
+    "A long yellow fruit",
+    "Device used for computing",
+    "Something you walk through in a house",
+    "A very large animal",
+    "It burns and gives light"};
     int wordcount = sizeof(words) / sizeof(words[0]); //used to find the number of elements in the 'word' array
     srand(time(NULL));
     int wordindex = rand() % wordcount; //select a random index for the word
     char selectedword[MAX_WORD_LENGTH];
+    char selectedhint[MAX_WORD_LENGTH];
     strcpy(selectedword,words[wordindex]); //wordindex is an integer that represents a randomly selected index within this array
+    strcpy(selectedhint,hints[wordindex]);
     int wordlength = strlen(selectedword); //finds the length of the word
     char guessedword[MAX_WORD_LENGTH];
 
@@ -107,15 +116,16 @@ int main()
     printf("Guess the word by suggesting letters.\n");
     printf("You have %d chances to get it right.\n", MAX_GUESSES);
     printf("Good luck!\n");
-    printf("Press any key to start...\n");
+    printf("Press enter to start...\n");
     getchar();
 
     while (attemptsleft > 0){
         system("cls");
         drawHangman(attemptsleft);
 
+        printf("\nHint: %s\n",selectedhint);
         printf("\nWord: %s\n",guessedword); //shows the state of the guessed word
-        printf("Guess a letter: ",&guess);
+        printf("Guess a letter: ",guess);
         scanf(" %c",&guess);
 
         correctguess=0;
@@ -130,7 +140,7 @@ int main()
         if(correctguess==0){
             attemptsleft--;
             printf("Incorrect guess.\nRemaining attempts: %d\n",attemptsleft);
-            printf("Press any key to continue");
+            printf("Press enter to continue");
             getchar();
             getchar();
             }
