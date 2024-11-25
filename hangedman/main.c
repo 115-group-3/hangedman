@@ -130,8 +130,17 @@ int main()
         {
             printf("Error: Invalid input.\n");
             printf("Press enter to continue...\n");
+            getchar(); // consume newline character
+            continue;
+        }
+
+        if (getchar() != '\n')
+        {
+            printf("Error: Please enter only one letter.\n");
+            printf("Press enter to continue...\n");
             getchar();
-            getchar(); // Consume newline character
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
             continue;
         }
 
@@ -140,7 +149,6 @@ int main()
             printf("Error: Please enter an alphabet letter.\n");
             printf("Press enter to continue...\n");
             getchar();
-            getchar(); // Consume newline character
             continue;
         }
 
@@ -157,7 +165,6 @@ int main()
             attemptsleft--;
             printf("Incorrect guess.\nRemaining attempts: %d\n",attemptsleft);
             printf("Press enter to continue");
-            getchar();
             getchar();
             }
 
