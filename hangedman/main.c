@@ -5,7 +5,7 @@
 #define MAX_WORD_LENGTH 100
 #define MAX_GUESSES 6
 
-void drawHangman(int attemptsleft) {
+void drawhangman(int attemptsleft) {
     switch (attemptsleft) {
         case 6:
             printf("  +-----+ \n");
@@ -94,7 +94,6 @@ int main()
     int wordlength = strlen(selectedword); //finds the length of the word
     char guessedword[MAX_WORD_LENGTH];
 
-    printf("Welcome to Hangedman!\n");
 
     for(i=0;i<wordlength;i++)
     {
@@ -121,12 +120,29 @@ int main()
 
     while (attemptsleft > 0){
         system("cls");
-        drawHangman(attemptsleft);
+        drawhangman(attemptsleft);
 
         printf("\nHint: %s\n",selectedhint);
-        printf("\nWord: %s\n",guessedword); //shows the state of the guessed word
+        printf("\nWord: %s\n",guessedword);
         printf("Guess a letter: ",guess);
-        scanf(" %c",&guess);
+
+        if(scanf(" %c",&guess) != 1)
+        {
+            printf("Error: Invalid input.\n");
+            printf("Press enter to continue...\n");
+            getchar();
+            getchar(); // Consume newline character
+            continue;
+        }
+
+        if(!isalpha(guess))
+        {
+            printf("Error: Please enter an alphabet letter.\n");
+            printf("Press enter to continue...\n");
+            getchar();
+            getchar(); // Consume newline character
+            continue;
+        }
 
         correctguess=0;
         for (int i=0;i<wordlength;i++)
@@ -145,7 +161,7 @@ int main()
             getchar();
             }
 
-        fullyguessed=1;               // initially assume the word is fully guessed
+        fullyguessed=1;     // initially assume the word is fully guessed
         for (int i=0;i<wordlength;i++)
         {
             if(guessedword[i]=='_') //to check if there are any unguessed letters
@@ -158,7 +174,7 @@ int main()
         if(fullyguessed==1)
         {
             system("cls");
-            drawHangman(attemptsleft);
+            drawhangman(attemptsleft);
             printf("\nWord: %s\n",guessedword);
             printf("Congratulations! You guessed the word.\n");
             return 0;
@@ -167,9 +183,8 @@ int main()
     }
 
     system("cls");
-    drawHangman(attemptsleft);
-    printf("\nWord: %s\n",selectedword);
-    printf("Game over. The word was '%s'.",selectedword);
+    drawhangman(attemptsleft);
+    printf("\n\nGame over. The word was '%s'.",selectedword);
 
 
     return 0;
